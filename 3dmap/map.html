@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>洛阳市3D地图</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <script src="js/echarts.min.js"></script>
+    <script src="js/echarts-gl.min.js"></script>
+    
+    <script src="js/luoyang.js"></script>
+    <script src="js/luoyangxiao.js"></script>
+    
+    <style type="text/css">
+     	#main1 {
+        	width:100%;
+         	border: 0;
+         	height: 600px;
+     	}
+     	#main2{
+     		width: 100%;
+     		border: 0;
+         	height: 600px;
+     	}
+ 	</style>
+ 	
+</head>
+
+<body>
+    <div id="main" style="width: 100%;">
+    	<div id="main1" style="width: 70%;float: left;"></div>
+    	<div id="main2" style="width: 30%;float: left;"></div>
+    </div>  
+    
+    <!--大地图-->   
+    <script type="text/javascript">
+        var city=[
+         	{name:'吉利区',value:[20,'户']},
+         	{name:'洛宁县',value:[40,'户']},
+         	{name:'孟津县',value:[60,'户']},
+         	{name:'新安县',value:[80,'户']},
+         	{name:'伊川县',value:[100,'户']},
+         	{name:'宜阳县',value:[120,'户']},
+         	{name:'偃师市',value:[140,'户']},
+         	{name:'嵩县',value:[160,'户']},
+         	{name:'栾川县',value:[180,'户']},
+         	{name:'洛龙区',value:[200,'户']},
+         	{name:'瀍河回族区',value:[0,'户']},
+         	{name:'老城区',value:[0,'户']},
+         	{name:'西工区',value:[0,'户']},
+         	{name:'涧西区',value:[0,'户']},
+         	{name:'汝阳县',value:[220,'户']}
+        ]
+        var chart = echarts.init(document.getElementById('main1'));
+        var min=0,max=300;
+        var option = {
+            tooltip:{
+                formatter:function(params){
+                    var content='',
+                    content=params.name+params.value[0]+params.value[1];
+                    return content;
+                },
+            },
+            backgroundColor:'#FF0000',
+            visualMap: {
+                show: false,
+                min: min,
+                max: max,
+                inRange: {
+                    color: ['#e0ffff', '#006edd']
+                },
+                calculable:true
+            },
+            series: {
+                name:'洛阳',
+                type: 'map3D',
+                map: '洛阳',
+                data:city,
+                regionHeight: 5,
+                boxWidth:50,
+                boxDepth:50,
+                top:'-10%',
+                label: {
+                    show:true,
+                    formatter:function(params){
+                        var content='',
+                        content=params.name;
+                        return content;
+                    },
+                    textStyle:{
+                        color:'#EECBAD',
+                        fontWeight : 'normal',
+                        fontSize : 15,
+                        backgroundColor: 'rgba(0,23,11,0)'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle:{color:"#f00"}
+                    } 
+                },
+                itemStyle: {
+                    normal: {
+                        borderWidth: 0.4
+                    }, 
+                    emphasis: {
+                        color: 'rgb(255,255,255)'
+                    }
+                },
+                viewControl: {
+                    autoRotate: false,
+                    distance: 70
+                }
+            }
+        }
+        chart.setOption(option);
+        chart.on('click', function (params) {
+        	var cout=params.data.name;
+        	//window.open('https://www.baidu.com');
+        	console.log(params);
+        });
+    </script>
+    
+    <!--小地图-->   
+    <script type="text/javascript">
+        var city=[
+         	{name:'瀍河回族区',value:[50,'户']},
+         	{name:'老城区',value:[100,'户']},
+         	{name:'西工区',value:[150,'户']},
+         	{name:'涧西区',value:[200,'户']}
+        ]
+        var chart = echarts.init(document.getElementById('main2'));
+        var min=0,max=300;
+        var option = {
+            tooltip:{
+                formatter:function(params){
+                    var content='',
+                    content=params.name+params.value[0]+params.value[1];
+                    return content;
+                },
+            },
+            backgroundColor:'#FF0000',
+            visualMap: {
+                show: false,
+                min: min,
+                max: max,
+                range: [0, 300],//指定上下手柄的范围
+                text: ['高','低'],
+                inRange: {
+                    color: ['#e0ffff', '#006edd']
+                },
+                calculable:true//是否显示拖拽用的手柄 
+            },
+            series: {
+                name:'洛阳',
+                type: 'map3D',
+                map: '洛阳小',
+                data:city,
+                regionHeight: 4,
+                boxWidth:30,
+                boxDepth:30,
+                top:'-10%',
+                label: {
+                    show:true,
+                    formatter:function(params){
+                        var content='',
+                        content=params.name;
+                        return content;
+                    },
+                    textStyle:{
+                        color:'#EECBAD',
+                        fontWeight : 'normal',
+                        fontSize : 15,
+                        backgroundColor: 'rgba(0,23,11,0)'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle:{color:"#f00"}
+                    } 
+                },
+                itemStyle: {
+                    normal: {
+                        borderWidth: 0.4
+                    }, 
+                    emphasis: {
+                        color: 'rgb(255,255,255)'
+                    }
+                },
+                viewControl: {
+                    autoRotate: false,
+                    distance: 70
+                }
+            }
+        }
+        chart.setOption(option);
+        chart.on('click', function (params) {
+            var cout=params.data.name;
+            //window.open('https://www.baidu.com');
+            console.log(params);
+        });
+    </script>
+    
+</body>
+</html>

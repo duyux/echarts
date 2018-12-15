@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>洛阳市3D小地图</title>
+     
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+     
+    <script src="js/echarts.min.js"></script>
+    <script src="js/echarts-gl.min.js"></script>
+    <script src="js/luoyangxiao.js"></script>
+     
+    <style type="text/css">    	
+     	#main {
+         	width:100%;
+         	border:2px solid green;
+         	height: 600px;
+     	}
+ 	</style>
+</head>
+ 
+<body>
+    <div id="main"></div>
+    <script type="text/javascript">
+        var city=[
+         	{name:'瀍河回族区',value:[50,'户']},
+         	{name:'老城区',value:[100,'户']},
+         	{name:'西工区',value:[150,'户']},
+         	{name:'涧西区',value:[200,'户']}
+        ]
+        var chart = echarts.init(document.getElementById('main'));
+        var min=0,max=300;
+        var option = {
+            tooltip:{
+                formatter:function(params){
+                    var content='',
+                    content=params.name+params.value[0]+params.value[1];
+                    return content;
+                },
+            },
+            backgroundColor:'#FF0000',
+            visualMap: {
+                show: false,
+                min: min,
+                max: max,
+                range: [0, 300],
+                text: ['高','低'],
+                inRange: {
+                    color: ['#e0ffff', '#006edd']
+                },
+                calculable:true
+            },
+            series: {
+                name:'洛阳',
+                type: 'map3D',
+                map: '洛阳小',
+                data:city,
+                regionHeight: 4,
+                boxWidth:70,
+                boxDepth:50,
+                top:'-10%',
+                label: {
+                    show:true,
+                    formatter:function(params){
+                        var content='',
+                        content=params.name;
+                        return content;
+                    },
+                    textStyle:{
+                        color:'#EECBAD',
+                        fontWeight : 'normal',
+                        fontSize : 20,
+                        backgroundColor: 'rgba(0,23,11,0)'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle:{color:"#f00"}
+                    } 
+                },
+                itemStyle: {
+                    normal: {
+                        borderWidth: 0.4
+                    }, 
+                    emphasis: {
+                        color: 'rgb(255,255,255)'
+                    }
+                },
+                viewControl: {
+                    autoRotate: false,
+                    distance: 70
+                }
+            }
+        }
+        chart.setOption(option);
+        chart.on('click', function (params) {
+            var cout=params.data.name;
+            //window.open('https://www.baidu.com');
+            console.log(params);
+        });
+    </script>
+</body>
+</html>
